@@ -39,6 +39,7 @@
 
         .logo span {
             color: #91720e;
+            color: #d4af37;
         }
 
         /* CONTENEDOR */
@@ -208,7 +209,7 @@
 $catalogo = [
 
     [
-        'marca' => 'AGV',
+        'marca' => 'AGV🇮🇹',
         'modelo' => 'Pista GP RR',
         'carpeta' => 'pista_gp_rr',
     ],
@@ -334,9 +335,7 @@ $marcas = collect($catalogo)->groupBy('marca');
     </div>
 
     @endforeach
-
 </section>
-
 <div class="separador"></div>
 
 @endforeach
