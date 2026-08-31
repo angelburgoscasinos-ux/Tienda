@@ -38,7 +38,7 @@
         }
 
         .logo span {
-            color: #d4af37;
+            color: #91720e;
         }
 
         /* CONTENEDOR */
