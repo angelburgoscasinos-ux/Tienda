@@ -257,31 +257,31 @@ $catalogo = [
     ],
 
     [
-        'marca' => 'LS2',
+        'marca' => 'LS2🇨🇳',
         'modelo' => 'Thunder GP Pro',
         'carpeta' => 'ls thunder gp pro',
     ],
 
     [
-        'marca' => 'Nolan',
+        'marca' => 'Nolan🇮🇹',
         'modelo' => 'X-804 RS',
         'carpeta' => 'nolan x-804 rs',
     ],
 
     [
-        'marca' => 'Scorpion',
+        'marca' => 'Scorpion🇰🇷',
         'modelo' => 'XO-1',
         'carpeta' => 'scorpion_xo_r1',
     ],
 
     [
-        'marca' => 'Shark',
+        'marca' => 'Shark🇫🇷',
         'modelo' => 'Aeron GP',
         'carpeta' => 'aeron gp',
     ],
 
     [
-        'marca' => 'Shoei',
+        'marca' => 'Shoei🇯🇵',
         'modelo' => 'X-SPR Pro',
         'carpeta' => 'x-spr-pro',
     ],
