@@ -233,25 +233,25 @@ $catalogo = [
     ],
 
     [
-        'marca' => 'Arai',
+        'marca' => 'Arai🇯🇵',
         'modelo' => 'RX-7V EVO',
         'carpeta' => 'rx-7v-evo',
     ],
 
     [
-        'marca' => 'Bell',
+        'marca' => 'Bell🇺🇸',
         'modelo' => 'Race Star Flex DLX',
         'carpeta' => 'race star dlx',
     ],
 
     [
-        'marca' => 'Bell',
+        'marca' => 'Bell🇺🇸',
         'modelo' => 'C5',
         'carpeta' => 'sch c5',
     ],
 
     [
-        'marca' => 'HJC',
+        'marca' => 'HJC🇰🇷',
         'modelo' => 'RPHA 1',
         'carpeta' => 'rpha 1',
     ],
