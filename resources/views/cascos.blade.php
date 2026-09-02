@@ -173,7 +173,22 @@
                 height: 145px;
             }
         }
+            /* BOTÓN CARRITO (SIN FONDO) */
+    .btn-flotante {
+        position: fixed;        
+        bottom: 20px;            
+        right: 20px;            
+        color: white;           
+        font-size: 32px;         
+        text-decoration: none;   
+        z-index: 9999;           
+        transition: transform 0.2s ease; /* Transición suave para el zoom */
+    }
 
+    /* Efecto al pasar el cursor por encima (Hace zoom fluido) */
+    .btn-flotante:hover {
+        transform: scale(1.25);     
+    }
     </style>
 
 </head>
@@ -186,12 +201,15 @@
         Helmet<span>PremiumUy</span>
     </div>
 
-    <div>
-        🛒
-    </div>
+    
 
 </header>
 
+    <div>
+
+    <a href="{{ route('carrito') }}" class="btn-flotante">🛒</a>
+
+    </div>
 
 <div class="contenedor">
 

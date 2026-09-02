@@ -7,3 +7,4 @@ Route::get('/', [CascoController::class, 'index']);
 Route::get('/carrito', function () {
     return view('carrito');
 })->name('carrito');
+
