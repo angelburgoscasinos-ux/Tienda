@@ -103,10 +103,10 @@
         }
 
         .foto {
-            width: 180px;
-            height: 180px;
+            width: 15px;
+            height: 15px;
             background: #222;
-            border: 1px solid #444;
+            border: 15px solid #444;
             overflow: hidden;
             transition: 0.3s;
         }
@@ -117,8 +117,8 @@
         }
 
         .foto img {
-            width: 20%;
-            height: 20%;
+            width: 20px;
+            height: 20px;
             object-fit: contain;
         }
 
@@ -146,6 +146,10 @@
         .boton:hover {
             background: #d4af37;
             color: #111;
+        }
+        img {
+            max-width: 25%;
+            height: auto;
         }
 
         /* CELULAR */
