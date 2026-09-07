@@ -147,8 +147,9 @@
             background: #d4af37;
             color: #111;
         }
+        /* Tamaño de las imágenes de los cascos */
         img {
-            max-width: 25%;
+            max-width: 20%;
             height: auto;
         }
 
@@ -194,6 +195,75 @@
         transform: scale(1.25);     
     }
 
+    /* Login */
+    /* Contenedor principal del Login */
+.login-container {
+    background-color: #1a1a1a; /* Fondo oscuro que combina con tu web */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+}
+
+.login-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+}
+
+/* Bloques de campos organizados verticalmente */
+.form-group {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column; /* Coloca la etiqueta arriba y el input abajo */
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: #cccccc;
+}
+
+/* Estilo estético para las cajas de texto */
+.form-group input {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+/* Efecto visual cuando el usuario hace clic para escribir */
+.form-group input:focus {
+    border-color: #ffb703; /* Color de acento (puedes usar el dorado de tu logo) */
+}
+
+/* Botón moderno y llamativo */
+.btn-entrar {
+    background-color: #ffb703; /* Tono dorado/amarillo como tu marca HelmetPremiumUy */
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s;
+    margin-top: 5px;
+}
+
+.btn-entrar:hover {
+    background-color: #e09f02; /* Se oscurece ligeramente al pasar el cursor */
+}
+
     </style>
 
 </head>
@@ -206,7 +276,23 @@
         Helmet<span>PremiumUy</span>
     </div>
 
-    
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        
+        <form action="procesar-login.php" method="POST">
+            <div>
+                <label for="usuario">Correo o Usuario</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+            </div>
+            
+            <div>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+            
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
 
 </header>
 
@@ -362,3 +448,4 @@ $marcas = collect($catalogo)->groupBy('marca');
 <div class="separador"></div>
 
 @endforeach
+
