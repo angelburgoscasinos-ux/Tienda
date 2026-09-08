@@ -8,6 +8,7 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>HelmetPremiumUy</title>
+    @vite('resources/js/app.js')
 
     <style>
         * {
@@ -121,6 +122,58 @@
             height: 20px;
             object-fit: contain;
         }
+        /* GALERÍA DE CASCOS */
+
+.galeria {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.miniaturas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80px;
+}
+
+.miniatura {
+    width: 70px;
+    height: 70px;
+    padding: 4px;
+    background: #0e0d0d;
+    border: 1px solid #151313;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.miniatura img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.miniatura.activa {
+    border: 2px solid #3483fa;
+}
+
+.imagen-principal {
+    width: 700px;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.imagen-grande {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block;
+}
 
         /* SEPARADOR */
 
@@ -137,6 +190,7 @@
             margin-top: 15px;
             padding: 10px 18px;
             border: 1px solid #d4af37;
+            background: #111;
             color: #d4af37;
             text-decoration: none;
             font-size: 14px;
@@ -147,11 +201,15 @@
             background: #d4af37;
             color: #111;
         }
+<<<<<<< HEAD
         /* Tamaño de las imágenes de los cascos */
         img {
             max-width: 20%;
             height: auto;
         }
+=======
+        
+>>>>>>> 15893db (Actualización proyecto cascos)
 
         /* CELULAR */
 
@@ -403,7 +461,7 @@ $marcas = collect($catalogo)->groupBy('marca');
 
         <div class="casco-contenido">
 
-           <div class="casco-imagen">
+<div class="casco-imagen">
 
     @php
         $imagenes = glob(
@@ -412,32 +470,75 @@ $marcas = collect($catalogo)->groupBy('marca');
         );
     @endphp
 
-    @foreach($imagenes as $imagen)
+    @if(count($imagenes) > 0)
 
-        <img
-            src="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagen)) }}"
-            alt="{{ $casco['marca'] }} {{ $casco['modelo'] }}"
-        >
+        <div class="galeria">
 
-    @endforeach
+            {{-- MINIATURAS --}}
+            <div class="miniaturas">
 
-</div>
+                @foreach($imagenes as $indice => $imagen)
 
-            <div class="casco-info">
+                    <button
+                        type="button"
+                        class="miniatura {{ $indice == 0 ? 'activa' : '' }}"
+                        onclick="cambiarImagen(this)"
+                        data-imagen="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagen)) }}"
+                    >
+                        <img
+                            src="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagen)) }}"
+                            alt="Foto {{ $indice + 1 }}"
+                        >
+                    </button>
 
-                <h4>
-                    {{ $casco['marca'] }}
-                </h4>
-
-                <p>
-                    {{ $casco['modelo'] }}
-                </p>
-
-                <a href="#" class="boton">
-                    Ver modelo
-                </a>
+                @endforeach
 
             </div>
+
+            {{-- FOTO GRANDE --}}
+            <div class="imagen-principal">
+
+                <img
+                    class="imagen-grande"
+                    src="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagenes[0])) }}"
+                    alt="{{ $casco['modelo'] }}"
+                >
+
+            </div>
+
+        </div>
+
+    @endif
+
+</div>
+ 
+
+   <div class="casco-info">
+
+    <h4>
+        
+        {{ $marca }}
+
+    </h4>
+
+    <p>
+        {{ $casco['modelo'] }}
+    </p>
+
+    
+    <a href="#" class="boton">
+        Ver modelo
+    </a>
+
+<form action="#" method="POST">
+    @csrf
+
+    <button type="submit" class="boton">
+        🛒 Agregar al carrito
+    </button>
+</form>
+
+</div>
 
         </div>
 
@@ -449,3 +550,21 @@ $marcas = collect($catalogo)->groupBy('marca');
 
 @endforeach
 
+<<<<<<< HEAD
+=======
+<script>
+function cambiarImagen(elemento) {
+    const nuevaImagen = elemento.getAttribute('data-imagen');
+    const galeria = elemento.closest('.galeria');
+    const imagenGrande = galeria.querySelector('.imagen-grande');
+
+    imagenGrande.src = nuevaImagen;
+
+    galeria.querySelectorAll('.miniatura').forEach(function(miniatura) {
+        miniatura.classList.remove('activa');
+    });
+
+    elemento.classList.add('activa');
+}
+</script>
+>>>>>>> 15893db (Actualización proyecto cascos)
