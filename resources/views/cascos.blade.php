@@ -516,6 +516,7 @@ $catalogo = [
         'modelo' => 'XO-1',
         'precio' => 849,
         'carpeta' => 'scorpion_xo_r1',
+        'descripcion' => 'C'
     ],
 
     [
