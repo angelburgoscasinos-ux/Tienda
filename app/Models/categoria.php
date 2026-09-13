@@ -4,7 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class categoria extends Model
+class Categoria extends Model
 {
-    //
+    protected $table = 'categorias';
+
+    protected $primaryKey = 'categoria_id';
+
+    public $incrementing = true;
+
+    protected $keyType = 'int';
 }

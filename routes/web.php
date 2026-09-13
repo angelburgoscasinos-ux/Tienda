@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CascoController;
-use App\Models\Casco;
+use Illuminate\Http\Request;
 
-Route::get('/', [CascoController::class, 'index']);
+Route::get('/', function () {
+    return view('cascos');
+});
 
 Route::get('/carrito', function () {
     $carrito = session('carrito', []);
@@ -12,19 +13,24 @@ Route::get('/carrito', function () {
     return view('carrito', compact('carrito'));
 })->name('carrito');
 
-Route::post('/carrito/agregar/{casco}', function (Casco $casco) {
+Route::post('/carrito/agregar', function (Request $request) {
 
     $carrito = session('carrito', []);
 
-    $id = $casco->id;
+    $id = $request->id;
 
     if (isset($carrito[$id])) {
+
         $carrito[$id]['cantidad']++;
+
     } else {
+
         $carrito[$id] = [
-            'id' => $casco->id,
-            'nombre' => $casco->nombre,
-            'precio' => $casco->precio,
+            'id' => $request->id,
+            'marca' => $request->marca,
+            'nombre' => $request->modelo,
+            'precio' => (float) $request->precio,
+            'carpeta' => $request->carpeta,
             'cantidad' => 1,
         ];
     }

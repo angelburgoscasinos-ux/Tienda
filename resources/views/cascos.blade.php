@@ -362,6 +362,92 @@
 
 <div class="contenedor">
 
+    <h1>🛒 Carrito de compras</h1>
+     @php
+    $carrito = session('carrito', []);
+@endphp
+
+    @if(count($carrito) === 0)
+
+        <div class="vacio">
+
+            <h2>Tu carrito está vacío</h2>
+
+            <p>Agregá un casco para comenzar tu compra.</p>
+
+            <a href="/" class="volver">
+                ← Volver a los cascos
+            </a>
+
+        </div>
+
+    @else
+
+        @php
+            $total = 0;
+        @endphp
+
+        @foreach($carrito as $item)
+
+            @php
+                $subtotal = $item['precio'] * $item['cantidad'];
+                $total += $subtotal;
+            @endphp
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                padding:20px 0;
+                border-bottom:1px solid #ddd;
+            ">
+
+                <div>
+                    <h2>{{ $item['marca'] ?? '' }} {{ $item['nombre'] ?? '' }}</h2>
+
+                    <p>
+                        Precio:
+                        <strong>
+                            US$ {{ number_format($item['precio'], 0, ',', '.') }}
+                        </strong>
+                    </p>
+
+                    <p>
+                        Cantidad: {{ $item['cantidad'] }}
+                    </p>
+                </div>
+
+                <div>
+                    <strong>
+                        US$ {{ number_format($subtotal, 0, ',', '.') }}
+                    </strong>
+                </div>
+
+            </div>
+
+        @endforeach
+
+        <div style="
+            text-align:right;
+            margin-top:30px;
+            font-size:24px;
+        ">
+
+            <strong>
+                Total:
+                US$ {{ number_format($total, 0, ',', '.') }}
+            </strong>
+
+        </div>
+
+        <a href="/" class="volver">
+            ← Seguir comprando
+        </a>
+
+    @endif
+
+</div>
+
     <h1 class="titulo">
         Descubrí nuestros cascos
     </h1>
@@ -378,60 +464,71 @@ $catalogo = [
     [
         'marca' => 'AGV🇮🇹',
         'modelo' => 'Pista GP RR',
+        'precio' => 1699,
         'carpeta' => 'pista_gp_rr',
+        
     ],
 
     [
         'marca' => 'Arai🇯🇵',
         'modelo' => 'RX-7V EVO',
+        'precio' => 1149,
         'carpeta' => 'rx-7v-evo',
     ],
 
     [
         'marca' => 'Bell🇺🇸',
         'modelo' => 'Race Star Flex DLX',
+        'precio' => 999,
         'carpeta' => 'race star dlx',
     ],
 
     [
         'marca' => 'Bell🇺🇸',
         'modelo' => 'C5',
+        'precio' => 1099,
         'carpeta' => 'sch c5',
     ],
 
     [
         'marca' => 'HJC🇰🇷',
         'modelo' => 'RPHA 1',
+        'precio' => 899,
         'carpeta' => 'rpha 1',
     ],
 
     [
         'marca' => 'LS2🇨🇳',
         'modelo' => 'Thunder GP Pro',
+        'precio' => 799,
         'carpeta' => 'ls thunder gp pro',
     ],
 
     [
         'marca' => 'Nolan🇮🇹',
         'modelo' => 'X-804 RS',
+        'precio' => 1049,
         'carpeta' => 'nolan x-804 rs',
     ],
 
     [
         'marca' => 'Scorpion🇰🇷',
         'modelo' => 'XO-1',
+        'precio' => 849,
         'carpeta' => 'scorpion_xo_r1',
     ],
 
     [
         'marca' => 'Shark🇫🇷',
         'modelo' => 'Aeron GP',
+        'precio' => 949,
         'carpeta' => 'aeron gp',
     ],
 
     [
         'marca' => 'Shoei🇯🇵',
         'modelo' => 'X-SPR Pro',
+        'precio' => 1199,
         'carpeta' => 'x-spr-pro',
     ],
 
@@ -451,23 +548,46 @@ $marcas = collect($catalogo)->groupBy('marca');
         {{ $marca }}
     </h2>
 
-    @foreach($modelos as $casco)
+@foreach($modelos as $casco)
 
     <div class="modelo-section">
 
-        <h3 class="modelo-titulo">
-            {{ $casco['modelo'] }}
-        </h3>
+    <h3 class="modelo-titulo">
+        {{ $casco['modelo'] ?? '' }}
+    </h3>
 
-        <div class="casco-contenido">
+    <div class="precio">
+        US$ {{ number_format($casco['precio'] ?? 0, 0, ',', '.') }}
+    </div>
 
-<div class="casco-imagen">
+    <div class="descripcion">
+        {{ $casco['descripcion'] ?? 'Casco premium' }}
+    </div>
+    <form action="{{ route('carrito.agregar') }}" method="POST">
+    @csrf
+    <input type="hidden" name="id" value="{{ $marca . '-' . $casco['modelo'] }}">
+    <input type="hidden" name="marca" value="{{ $marca }}">
+    <input type="hidden" name="modelo" value="{{ $casco['modelo'] }}">
+    <input type="hidden" name="precio" value="{{ $casco['precio'] }}">
+    <input type="hidden" name="carpeta" value="{{ $casco['carpeta'] }}">
+
+    <button type="submit" class="boton">
+        🛒 Agregar al carrito
+    </button>
+</form>
 
     @php
-        $imagenes = glob(
-            public_path('images/cascos/' . $casco['carpeta'] . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}'),
-            GLOB_BRACE
-        );
+        $carpeta = $casco['carpeta'] ?? '';
+        $rutaImagenes = public_path('images/cascos/' . $carpeta);
+
+        $imagenes = [];
+
+        if ($carpeta && is_dir($rutaImagenes)) {
+            $imagenes = glob(
+                $rutaImagenes . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}',
+                GLOB_BRACE
+            ) ?: [];
+        }
     @endphp
 
     @if(count($imagenes) > 0)
@@ -479,79 +599,41 @@ $marcas = collect($catalogo)->groupBy('marca');
 
                 @foreach($imagenes as $indice => $imagen)
 
-                    <button
-                        type="button"
-                        class="miniatura {{ $indice == 0 ? 'activa' : '' }}"
+                    <img
+                        src="{{ asset('images/cascos/' . $carpeta . '/' . basename($imagen)) }}"
+                        alt="{{ $casco['modelo'] ?? '' }}"
+                        class="miniatura {{ $indice === 0 ? 'activa' : '' }}"
+                        data-imagen="{{ asset('images/cascos/' . $carpeta . '/' . basename($imagen)) }}"
                         onclick="cambiarImagen(this)"
-                        data-imagen="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagen)) }}"
                     >
-                        <img
-                            src="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagen)) }}"
-                            alt="Foto {{ $indice + 1 }}"
-                        >
-                    </button>
 
                 @endforeach
 
             </div>
 
-            {{-- FOTO GRANDE --}}
+            {{-- IMAGEN GRANDE --}}
             <div class="imagen-principal">
 
                 <img
+                    src="{{ asset('images/cascos/' . $carpeta . '/' . basename($imagenes[0])) }}"
+                    alt="{{ $casco['modelo'] ?? '' }}"
                     class="imagen-grande"
-                    src="{{ asset('images/cascos/' . $casco['carpeta'] . '/' . basename($imagenes[0])) }}"
-                    alt="{{ $casco['modelo'] }}"
                 >
 
             </div>
 
         </div>
 
-    @endif
-
-</div>
- 
-
-   <div class="casco-info">
-
-    <h4>
-        
-        {{ $marca }}
-
-    </h4>
-
-    <p>
-        {{ $casco['modelo'] }}
-    </p>
-
-    
-    <a href="#" class="boton">
-        Ver modelo
-    </a>
-
-<form action="#" method="POST">
-    @csrf
-
-    <button type="submit" class="boton">
-        🛒 Agregar al carrito
-    </button>
-</form>
-
-</div>
-
-        </div>
+ @endif
 
     </div>
 
-    @endforeach
+@endforeach
+
 </section>
-<div class="separador"></div>
 
 @endforeach
 
-<<<<<<< HEAD
-=======
 <script>
 function cambiarImagen(elemento) {
     const nuevaImagen = elemento.getAttribute('data-imagen');
@@ -567,4 +649,3 @@ function cambiarImagen(elemento) {
     elemento.classList.add('activa');
 }
 </script>
->>>>>>> 15893db (Actualización proyecto cascos)

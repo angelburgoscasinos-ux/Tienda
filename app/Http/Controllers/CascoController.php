@@ -8,7 +8,11 @@ class CascoController extends Controller
 {
     public function index()
     {
-        $cascos = Casco::all();
+        $cascos = Casco::with([
+            'marca',
+            'categoria',
+            'proveedor'
+        ])->get();
 
         return view('cascos', compact('cascos'));
     }
