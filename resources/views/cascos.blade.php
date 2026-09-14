@@ -8,7 +8,7 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>HelmetPremiumUy</title>
-    @vite('resources/js/app.js')
+    
 
     <style>
         * {
@@ -201,15 +201,7 @@
             background: #d4af37;
             color: #111;
         }
-<<<<<<< HEAD
-        /* Tamaño de las imágenes de los cascos */
-        img {
-            max-width: 20%;
-            height: auto;
-        }
-=======
         
->>>>>>> 15893db (Actualización proyecto cascos)
 
         /* CELULAR */
 
@@ -360,93 +352,6 @@
 
     </div>
 
-<div class="contenedor">
-
-    <h1>🛒 Carrito de compras</h1>
-     @php
-    $carrito = session('carrito', []);
-@endphp
-
-    @if(count($carrito) === 0)
-
-        <div class="vacio">
-
-            <h2>Tu carrito está vacío</h2>
-
-            <p>Agregá un casco para comenzar tu compra.</p>
-
-            <a href="/" class="volver">
-                ← Volver a los cascos
-            </a>
-
-        </div>
-
-    @else
-
-        @php
-            $total = 0;
-        @endphp
-
-        @foreach($carrito as $item)
-
-            @php
-                $subtotal = $item['precio'] * $item['cantidad'];
-                $total += $subtotal;
-            @endphp
-
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                padding:20px 0;
-                border-bottom:1px solid #ddd;
-            ">
-
-                <div>
-                    <h2>{{ $item['marca'] ?? '' }} {{ $item['nombre'] ?? '' }}</h2>
-
-                    <p>
-                        Precio:
-                        <strong>
-                            US$ {{ number_format($item['precio'], 0, ',', '.') }}
-                        </strong>
-                    </p>
-
-                    <p>
-                        Cantidad: {{ $item['cantidad'] }}
-                    </p>
-                </div>
-
-                <div>
-                    <strong>
-                        US$ {{ number_format($subtotal, 0, ',', '.') }}
-                    </strong>
-                </div>
-
-            </div>
-
-        @endforeach
-
-        <div style="
-            text-align:right;
-            margin-top:30px;
-            font-size:24px;
-        ">
-
-            <strong>
-                Total:
-                US$ {{ number_format($total, 0, ',', '.') }}
-            </strong>
-
-        </div>
-
-        <a href="/" class="volver">
-            ← Seguir comprando
-        </a>
-
-    @endif
-
-</div>
 
     <h1 class="titulo">
         Descubrí nuestros cascos
@@ -516,7 +421,6 @@ $catalogo = [
         'modelo' => 'XO-1',
         'precio' => 849,
         'carpeta' => 'scorpion_xo_r1',
-        'descripcion' => 'C'
     ],
 
     [
