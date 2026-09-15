@@ -72,7 +72,7 @@
             <p>Agregá un casco para comenzar tu compra.</p>
 
             <a href="/" class="volver">
-                ← Volver a los cascos
+                Volver a los cascos
             </a>
 
         </div>
@@ -138,7 +138,7 @@
             margin-top: 20px;
         ">
             <a href="/" class="volver">
-                ← Seguir comprando
+                Seguir comprando
             </a>
 
             <!-- Formulario de Compra -->

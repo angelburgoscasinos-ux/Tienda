@@ -247,6 +247,74 @@
 
     /* Login */
     /* Contenedor principal del Login */
+    /* BOTÓN INGRESAR */
+.acceso {
+    position: relative;
+}
+
+.btn-login {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.btn-login:hover {
+    color: #d4af37;
+}
+
+/* VENTANA DEL LOGIN */
+.login-container {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 55px;
+    width: 320px;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+    z-index: 9999;
+}
+
+.login-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+.btn-entrar {
+    background: #d4af37;
+    color: #111;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-entrar:hover {
+    background: #f0c94d;
+}
 .login-container {
     background-color: #1a1a1a; /* Fondo oscuro que combina con tu web */
     padding: 20px;
@@ -326,24 +394,60 @@
         Helmet<span>PremiumUy</span>
     </div>
 
-    <div class="login-container">
+    <div class="acceso">
+
+    <button type="button" class="btn-login" onclick="mostrarLogin()">
+        👤 INGRESAR
+    </button>
+
+    <div class="login-container" id="loginBox">
+
         <h2>Iniciar Sesión</h2>
-        
-        <form action="procesar-login.php" method="POST">
-            <div>
-            
-                <label for="usuario">Correo o Usuario</label>
-                <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+
+        @if ($errors->any())
+            <div class="error">
+                {{ $errors->first() }}
             </div>
-            
+        @endif
+
+        <form action="{{ route('login.procesar') }}" method="POST">
+
+            @csrf
+
+            <div>
+                <label for="email">Correo</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="Ingresa tu correo"
+                    required
+                >
+            </div>
+
             <div>
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Ingresa tu contraseña"
+                    required
+                >
             </div>
-            
-            <button type="submit">Entrar</button>
+
+            <button type="submit" class="btn-entrar">
+                Entrar
+            </button>
+
         </form>
+
     </div>
+
+</div>
 
 </header>
 
@@ -556,4 +660,20 @@ function cambiarImagen(elemento) {
 
     elemento.classList.add('activa');
 }
+function mostrarLogin() {
+    const login = document.getElementById('loginBox');
+
+    if (login.style.display === 'block') {
+        login.style.display = 'none';
+    } else {
+        login.style.display = 'block';
+    }
+}
 </script>
+@if (session('login_requerido'))
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        mostrarLogin();
+    });
+</script>
+@endif
