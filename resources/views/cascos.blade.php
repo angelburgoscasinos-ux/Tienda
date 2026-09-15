@@ -372,7 +372,7 @@ $catalogo = [
         'modelo' => 'Pista GP RR',
         'precio' => 1699,
         'carpeta' => 'pista_gp_rr',
-        'descripcion' => 'Casco para benja'
+        
         
         
     ],
