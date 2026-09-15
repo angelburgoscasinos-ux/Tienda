@@ -331,6 +331,7 @@
         
         <form action="procesar-login.php" method="POST">
             <div>
+            
                 <label for="usuario">Correo o Usuario</label>
                 <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
             </div>
@@ -371,6 +372,8 @@ $catalogo = [
         'modelo' => 'Pista GP RR',
         'precio' => 1699,
         'carpeta' => 'pista_gp_rr',
+        'descripcion' => 'Casco para benja'
+        
         
     ],
 
