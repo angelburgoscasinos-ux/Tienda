@@ -11,376 +11,496 @@
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <style>
+
+        :root {
+            --fondo: #0b0d0f;
+            --fondo-card: #15181c;
+            --fondo-card-2: #101316;
+            --borde: #2a2f35;
+            --texto: #f5f5f5;
+            --texto-suave: #aeb4bc;
+            --amarillo: #f5b800;
+            --amarillo-hover: #ffc928;
+            --negro: #090a0b;
+        }
+
         * {
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            background: #111;
-            color: white;
+            background:
+                radial-gradient(circle at 85% 10%, rgba(245, 184, 0, 0.08), transparent 28%),
+                linear-gradient(180deg, #090b0d 0%, #101316 48%, #0a0c0e 100%);
+            color: var(--texto);
             font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
         }
 
         /* ENCABEZADO */
-
         header {
-            padding: 25px 50px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 76px;
+            padding: 14px 5%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #333;
+            gap: 20px;
+            background: rgba(9, 11, 13, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(245, 184, 0, 0.18);
         }
 
         .logo {
             font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            white-space: nowrap;
         }
 
         .logo span {
-            color: #91720e;
-            color: #d4af37;
+            color: var(--amarillo);
         }
 
-        /* CONTENEDOR */
+        .acceso {
+            position: relative;
+        }
 
+        .btn-login {
+            background: transparent;
+            border: 1px solid #3a3f45;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 999px;
+            transition: 0.25s ease;
+        }
+
+        .btn-login:hover {
+            border-color: var(--amarillo);
+            color: var(--amarillo);
+            transform: translateY(-1px);
+        }
+
+        /* LOGIN */
+        .login-container {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 55px;
+            width: 320px;
+            background: #171a1e;
+            padding: 22px;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.65);
+            z-index: 9999;
+            color: white;
+        }
+
+        .login-container h2 {
+            margin: 0 0 20px;
+            font-size: 22px;
+        }
+
+        .login-container label {
+            display: block;
+            margin-bottom: 6px;
+            color: #d7dbe0;
+            font-size: 13px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 11px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #3a4047;
+            border-radius: 9px;
+            background: #0f1215;
+            color: white;
+            outline: none;
+        }
+
+        .login-container input:focus {
+            border-color: var(--amarillo);
+            box-shadow: 0 0 0 3px rgba(245,184,0,0.12);
+        }
+
+        .btn-entrar {
+            background: var(--amarillo);
+            color: #111;
+            border: none;
+            border-radius: 9px;
+            padding: 11px;
+            width: 100%;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .btn-entrar:hover {
+            background: var(--amarillo-hover);
+            transform: translateY(-1px);
+        }
+
+        .error {
+            background: rgba(220, 53, 69, 0.12);
+            border: 1px solid rgba(220, 53, 69, 0.4);
+            color: #ff9da6;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        /* CONTENEDOR / HERO */
         .contenedor {
-            max-width: 1400px;
-            margin: auto;
-            padding: 40px 30px;
+            width: min(1400px, 92%);
+            margin: 0 auto;
+            padding: 52px 0 80px;
         }
 
         .titulo {
-            font-size: 48px;
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: clamp(38px, 5vw, 68px);
+            line-height: 1.02;
+            letter-spacing: -2px;
+            font-weight: 900;
+            max-width: 850px;
+        }
+
+        .titulo::first-line {
+            color: #fff;
         }
 
         .subtitulo {
-            color: #aaa;
-            margin-bottom: 50px;
+            color: var(--texto-suave);
+            font-size: 18px;
+            margin: 16px 0 55px;
         }
 
-        /* MARCA */
+        /* BOTÓN CARRITO */
+        .btn-flotante {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            background: var(--amarillo);
+            border: 2px solid #111;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 27px;
+            z-index: 9999;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
 
-        .marca {
-            margin-bottom: 60px;
+        .btn-flotante:hover {
+            background: var(--amarillo-hover);
+            transform: scale(1.08) translateY(-2px);
+        }
+
+        /* MARCAS */
+        .marca-section {
+            margin: 0 0 58px;
+            padding: 28px;
+            border: 1px solid var(--borde);
+            border-radius: 22px;
+            background: linear-gradient(145deg, rgba(24,28,32,0.96), rgba(13,16,19,0.96));
+            box-shadow: 0 16px 45px rgba(0,0,0,0.22);
         }
 
         .marca-titulo {
-            font-size: 30px;
-            border-bottom: 1px solid #444;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+            flex-basis: 100%;
+            margin: 0 0 24px;
+            padding: 0 0 17px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 29px;
+            border-bottom: 1px solid #30363d;
         }
 
-        .marca-titulo span {
-            color: #d4af37;
+        .punto {
+            width: 9px;
+            height: 30px;
+            border-radius: 8px;
+            background: var(--amarillo);
+            display: inline-block;
+            box-shadow: 0 0 18px rgba(245,184,0,0.35);
         }
 
-        /* MODELOS */
+        /* DOS TARJETAS POR FILA EN ESCRITORIO */
+        .marca-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
 
-        .modelo {
-            margin-bottom: 45px;
+        .modelo-section {
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(145deg, #171b20, #101316);
+    border: 1px solid #2d333a;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Cuando una marca tiene 2 o más modelos */
+.marca-section:has(.modelo-section + .modelo-section) .modelo-section {
+    width: calc(50% - 11px);
+}
+        
+        .marca-section > .modelo-section:only-child {
+    width: 100%;
+}
+.marca-section > .modelo-section:only-child .galeria {
+    max-width: 950px;
+}
+
+        .modelo-section:hover {
+            transform: translateY(-4px);
+            border-color: rgba(245,184,0,0.55);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.35);
         }
 
         .modelo-titulo {
-            font-size: 23px;
-            margin-bottom: 18px;
+            margin: 0 0 8px;
+            font-size: 24px;
+            letter-spacing: -0.4px;
         }
 
-        .modelo-info {
-            color: #999;
+        .precio {
+            font-size: 25px;
+            font-weight: 900;
+            color: var(--amarillo);
+            margin: 4px 0 5px;
+        }
+
+        .descripcion {
+            color: var(--texto-suave);
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
 
-        /* FOTOS */
+        /* BOTÓN */
+        .boton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin: 0 0 18px;
+            padding: 11px 18px;
+            border: 1px solid var(--amarillo);
+            border-radius: 9px;
+            background: var(--amarillo);
+            color: #111;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
 
-        .fotos {
+        .boton:hover {
+            background: var(--amarillo-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(245,184,0,0.18);
+        }
+
+        /* GALERÍA */
+        .galeria {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 12px;
+            align-items: stretch;
+            width: 100%;
         }
 
-        .foto {
-            width: 15px;
-            height: 15px;
-            background: #222;
-            border: 15px solid #444;
-            overflow: hidden;
-            transition: 0.3s;
+        .miniaturas {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 62px;
+            flex-shrink: 0;
         }
 
-        .foto:hover {
-            transform: scale(1.04);
-            border-color: #d4af37;
-        }
-
-        .foto img {
-            width: 20px;
-            height: 20px;
+        .miniatura {
+            width: 62px;
+            height: 62px;
+            padding: 4px;
+            background: #0b0d0f;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            cursor: pointer;
             object-fit: contain;
+            transition: 0.2s ease;
         }
-        /* GALERÍA DE CASCOS */
 
-.galeria {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-}
+        .miniatura:hover {
+            border-color: #777;
+            transform: scale(1.03);
+        }
 
-.miniaturas {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 80px;
-}
+        .miniatura.activa {
+            border: 2px solid var(--amarillo);
+            box-shadow: 0 0 0 2px rgba(245,184,0,0.12);
+        }
 
-.miniatura {
-    width: 70px;
-    height: 70px;
-    padding: 4px;
-    background: #0e0d0d;
-    border: 1px solid #151313;
-    border-radius: 8px;
-    cursor: pointer;
-}
+        .imagen-principal {
+            width: calc(100% - 74px);
+            height: 430px;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at center, #242a30 0%, #111417 58%, #090b0d 100%);
+            border: 1px solid #2c3238;
+            border-radius: 14px;
+            overflow: hidden;
+        }
 
-.miniatura img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+        .imagen-grande {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important;
+            display: block;
+            transition: transform 0.25s ease;
+        }
 
-.miniatura.activa {
-    border: 2px solid #3483fa;
-}
-
-.imagen-principal {
-    width: 700px;
-    height: 700px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.imagen-grande {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    display: block;
-}
+        .imagen-principal:hover .imagen-grande {
+            transform: scale(1.025);
+        }
 
         /* SEPARADOR */
-
         .separador {
             height: 1px;
             background: #333;
             margin: 50px 0;
         }
 
-        /* BOTÓN */
-
-        .boton {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 18px;
-            border: 1px solid #d4af37;
-            background: #111;
-            color: #d4af37;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        .boton:hover {
-            background: #d4af37;
-            color: #111;
-        }
-        
-
         /* CELULAR */
-
-        @media (max-width: 600px) {
-
+        @media (max-width: 850px) {
             header {
-                padding: 20px;
+                padding: 13px 4%;
+            }
+
+            .logo {
+                font-size: 22px;
             }
 
             .contenedor {
-                padding: 25px 15px;
+                width: 94%;
+                padding-top: 38px;
+            }
+
+            .modelo-section {
+                width: 100%;
+            }
+
+            .imagen-principal {
+                height: 390px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                min-height: 68px;
+            }
+
+            .logo {
+                font-size: 19px;
+                letter-spacing: -0.5px;
+            }
+
+            .btn-login {
+                font-size: 12px;
+                padding: 8px 11px;
+            }
+
+            .login-container {
+                width: min(320px, 88vw);
+            }
+
+            .contenedor {
+                width: 94%;
+                padding: 32px 0 65px;
             }
 
             .titulo {
-                font-size: 34px;
+                font-size: 39px;
+                letter-spacing: -1.5px;
+            }
+
+            .subtitulo {
+                font-size: 15px;
+                margin-bottom: 32px;
+            }
+
+            .marca-section {
+                padding: 17px;
+                border-radius: 16px;
             }
 
             .marca-titulo {
-                font-size: 25px;
+                font-size: 23px;
             }
 
-            .foto {
-                width: 145px;
-                height: 145px;
+            .modelo-section {
+                padding: 14px;
+                border-radius: 14px;
+            }
+
+            .modelo-titulo {
+                font-size: 21px;
+            }
+
+            .precio {
+                font-size: 23px;
+            }
+
+            .galeria {
+                gap: 8px;
+            }
+
+            .miniaturas {
+                width: 52px;
+                gap: 6px;
+            }
+
+            .miniatura {
+                width: 52px;
+                height: 52px;
+            }
+
+            .imagen-principal {
+                width: calc(100% - 60px);
+                height: 310px;
+            }
+
+            .btn-flotante {
+                width: 52px;
+                height: 52px;
+                right: 16px;
+                bottom: 16px;
             }
         }
-            /* BOTÓN CARRITO (SIN FONDO) */
-    .btn-flotante {
-        position: fixed;        
-        bottom: 20px;            
-        right: 20px;            
-        color: white;           
-        font-size: 32px;         
-        text-decoration: none;   
-        z-index: 9999;           
-        transition: transform 0.2s ease; /* Transición suave para el zoom */
-    }
-
-    /* Efecto al pasar el cursor por encima (Hace zoom fluido) */
-    .btn-flotante:hover {
-        transform: scale(1.25);     
-    }
-
-    /* Login */
-    /* Contenedor principal del Login */
-    /* BOTÓN INGRESAR */
-.acceso {
-    position: relative;
-}
-
-.btn-login {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 10px 15px;
-}
-
-.btn-login:hover {
-    color: #d4af37;
-}
-
-/* VENTANA DEL LOGIN */
-.login-container {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 55px;
-    width: 320px;
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-    z-index: 9999;
-}
-
-.login-container h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: white;
-}
-
-.login-container label {
-    display: block;
-    margin-bottom: 5px;
-    color: white;
-}
-
-.login-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    border: 1px solid #444;
-    border-radius: 5px;
-}
-
-.btn-entrar {
-    background: #d4af37;
-    color: #111;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-entrar:hover {
-    background: #f0c94d;
-}
-.login-container {
-    background-color: #1a1a1a; /* Fondo oscuro que combina con tu web */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    width: 300px;
-    font-family: 'Arial', sans-serif;
-    color: #ffffff;
-}
-
-.login-container h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    border-bottom: 1px solid #333;
-    padding-bottom: 8px;
-}
-
-/* Bloques de campos organizados verticalmente */
-.form-group {
-    margin-bottom: 12px;
-    display: flex;
-    flex-direction: column; /* Coloca la etiqueta arriba y el input abajo */
-}
-
-.form-group label {
-    font-size: 0.85rem;
-    margin-bottom: 5px;
-    color: #cccccc;
-}
-
-/* Estilo estético para las cajas de texto */
-.form-group input {
-    background-color: #2a2a2a;
-    border: 1px solid #444;
-    border-radius: 4px;
-    padding: 8px 12px;
-    color: #fff;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-/* Efecto visual cuando el usuario hace clic para escribir */
-.form-group input:focus {
-    border-color: #ffb703; /* Color de acento (puedes usar el dorado de tu logo) */
-}
-
-/* Botón moderno y llamativo */
-.btn-entrar {
-    background-color: #ffb703; /* Tono dorado/amarillo como tu marca HelmetPremiumUy */
-    color: #000000;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-    width: 100%;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: background-color 0.3s;
-    margin-top: 5px;
-}
-
-.btn-entrar:hover {
-    background-color: #e09f02; /* Se oscurece ligeramente al pasar el cursor */
-}
 
     </style>
 
@@ -457,6 +577,8 @@
 
     </div>
 
+
+    <main class="contenedor">
 
     <h1 class="titulo">
         Descubrí nuestros cascos
@@ -645,6 +767,8 @@ $marcas = collect($catalogo)->groupBy('marca');
 </section>
 
 @endforeach
+
+    </main>
 
 <script>
 function cambiarImagen(elemento) {
